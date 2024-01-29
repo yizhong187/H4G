@@ -1,10 +1,10 @@
-import CertificatesPage from "../pages/Certificates";
+import CertificatesPage from "../pages/CertificatesPage";
 import FeedbackPage from "../pages/FeedbackPage";
 import HomePage from "../pages/HomePage"
 import LeaderboardPage from "../pages/LeaderboardPage";
 import LoginPage from "../pages/LoginPage";
 import ProfilePage from "../pages/ProfilePage";
-import SettingsPage from "../pages/Settings";
+import SettingsPage from "../pages/SettingsPage";
 
 export interface Route {
   path: string;
