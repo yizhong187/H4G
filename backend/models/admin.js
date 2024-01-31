@@ -14,3 +14,17 @@ export async function insertAdmin(username, hash) {
     }
 }
 
+
+export async function findUserEvents(username) {
+    try {
+        const findUserQuery = {
+            text: "SELECT * FROM registeredEvents WHERE username = $1",
+            values: [username]
+        }
+        return await pool.query(findUserQuery); //returns a promise
+    } catch (error) {
+        console.error("Error querying SQL: ", error);
+        throw error;
+    }
+}
+
