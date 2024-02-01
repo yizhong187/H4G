@@ -30,6 +30,19 @@ export async function findUser(username) {
     }
 }
 
+export async function findAllUsers() {
+    try {
+        const findAllUsersQuery = {
+            text: "SELECT * FROM users"
+        }
+
+        return await pool.query(findAllUsersQuery); //returns a promise
+    } catch (error) {
+        console.error("Error querying SQL: ", error);
+        throw error;
+    }
+}
+
 // tokens can be used to link users to their signed up events
 export async function insertToken(username, hash) {
     try {
