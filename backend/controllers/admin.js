@@ -37,7 +37,6 @@ export async function generateReport(req, res) {
         const userEvents = await findUserEvents(username);
 
         // do something, generate report here
-        
         res.status(201).send("Events fetched successfully");
     } catch (error) {
         if (error instanceof CustomError) {
