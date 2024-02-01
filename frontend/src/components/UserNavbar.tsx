@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   AppBar,
   Toolbar,
@@ -6,7 +6,6 @@ import {
   Typography,
   Drawer,
   List,
-  Divider,
   CssBaseline,
   Box,
   Badge,
@@ -15,24 +14,27 @@ import MenuIcon from "@mui/icons-material/Menu";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { mainListItems, secondaryListItems } from "./listitems";
+import logo from "../assets/BigAtHeartLogo.webp";
 
-const drawerWidth = 240;
+const drawerWidth = 200;
 
-const UserNavbar: React.FC = () => {
-  const [open, setOpen] = useState(false);
+type UserNavbarProps = {
+  isDrawerOpen: boolean;
+  toggleDrawer: () => void;
+};
 
-  const toggleDrawer = () => {
-    setOpen(!open);
-  };
-
+const UserNavbar: React.FC<UserNavbarProps> = ({
+  isDrawerOpen,
+  toggleDrawer,
+}) => {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
       <AppBar
         position="absolute"
         sx={{
-          width: open ? `calc(100% - ${drawerWidth}px)` : "100%",
-          ml: open ? `${drawerWidth}px` : 0,
+          width: isDrawerOpen ? `calc(100% - ${drawerWidth}px)` : "100%",
+          ml: isDrawerOpen ? `${drawerWidth}px` : 0,
           transition: (theme) =>
             theme.transitions.create(["margin", "width"], {
               easing: theme.transitions.easing.sharp,
@@ -42,10 +44,10 @@ const UserNavbar: React.FC = () => {
       >
         <Toolbar
           sx={{
-            pr: "24px", // keep right padding when drawer closed
+            pr: "24px",
           }}
         >
-          {!open && (
+          {!isDrawerOpen && (
             <IconButton
               edge="start"
               color="inherit"
@@ -58,6 +60,11 @@ const UserNavbar: React.FC = () => {
               <MenuIcon />
             </IconButton>
           )}
+          <img
+            src={logo}
+            alt="Big At Heart Logo"
+            style={{ height: "25px", marginRight: "10px" }}
+          />
           <Typography
             component="h1"
             variant="h6"
@@ -65,7 +72,7 @@ const UserNavbar: React.FC = () => {
             noWrap
             sx={{ flexGrow: 1 }}
           >
-            Dashboard
+            Big At Heart
           </Typography>
           <IconButton color="inherit">
             <Badge badgeContent={4} color="secondary">
@@ -76,7 +83,7 @@ const UserNavbar: React.FC = () => {
       </AppBar>
       <Drawer
         variant="persistent"
-        open={open}
+        open={isDrawerOpen}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
