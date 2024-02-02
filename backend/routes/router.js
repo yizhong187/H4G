@@ -5,7 +5,7 @@ import express from "express";
 import {authenticateToken, login, logout, registration} from "../controllers/auth.js"
 import { getCertificate, getSingleVolunteer, getVolunteers, updateProfile } from "../controllers/volunteer.js"
 import { createNewAdmin, generateReport } from "../controllers/admin.js";
-import { createWorkshop, deleteRegistration, deleteWorkshop, getAllWorkshops, getRegisteredList, getSingleWorkshop, registerWorkshop, updateAttendance, updateWorkshop } from "../controllers/workshops.js";
+import { createEvent, deleteEvent, deleteRegistration, getAllEvents, getRegisteredList, getSingleEvent, registerEvent, updateAttendance, updateEvent } from "../controllers/events.js";
 
 const router = express.Router();
 
@@ -24,17 +24,17 @@ router.put("/profile/:userID", updateProfile);
 router.post("/admin", createNewAdmin);
 router.post("/report", generateReport);
 
-// CRUD for workshops
-router.get("/workshops", getAllWorkshops);
-router.get("/workshops/:workshopID", getSingleWorkshop);
-router.post("/workshop", createWorkshop);
-router.put("/workshop/:workshopID", updateWorkshop);
-router.delete("/workshop/:workshopID", deleteWorkshop);
+// CRUD for events
+router.get("/events", getAllEvents);
+router.get("/events/:eventID", getSingleEvent);
+router.post("/workshop", createEvent);
+router.put("/workshop/:eventID", updateEvent);
+router.delete("/workshop/:eventID", deleteEvent);
 
 // registering for workshop
-router.get("/workshops/:workshopID/volunteers", getRegisteredList);
-router.put("/workshops/:workshopID/volunteers", updateAttendance);
-router.post("/workshops/:workshopID/:userID", registerWorkshop);
-router.delete("/workshops/:workshopID/:userID", deleteRegistration);
+router.get("/events/:eventID/volunteers", getRegisteredList);
+router.put("/events/:eventID/volunteers", updateAttendance);
+router.post("/events/:eventID/:userID", registerEvent);
+router.delete("/events/:eventID/:userID", deleteRegistration);
 
 export default router;

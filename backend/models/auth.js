@@ -3,11 +3,11 @@ import { pool } from "./db.js";
 
 
 // basic user CRUD
-export async function insertUser(username, hash) {
+export async function insertUser(firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, hash) {
     try {
         const insertUserQuery = {
-            text: "INSERT INTO users(username, password_hash) VALUES($1, $2)",
-            values: [username, hash] 
+            text: "INSERT INTO users(firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, passwordHash) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
+            values: [firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, hash] 
         }
         return await pool.query(insertUserQuery); //returns a promise
     } catch (error) {
@@ -16,11 +16,11 @@ export async function insertUser(username, hash) {
     }
 }
 
-export async function findUser(username) {
+export async function findUser(email) {
     try {
         const findUserQuery = {
-            text: "SELECT * FROM users WHERE username = $1",
-            values: [username]
+            text: "SELECT * FROM users WHERE email = $1",
+            values: [email]
         }
 
         return await pool.query(findUserQuery); //returns a promise
@@ -44,26 +44,13 @@ export async function findAllUsers() {
 }
 
 // tokens can be used to link users to their signed up events
-export async function insertToken(username, hash) {
+export async function insertToken(id, hash) {
     try {
         const insertTokenQuery = {
-            text: "INSERT INTO activeUsers(user_id, refresh_token_hash) SELECT id, $2 FROM users WHERE username=$1",
-            values: [username, hash] 
+            text: "INSERT INTO activeUsers(userID, hashedToken) VALUES($1, $2)",
+            values: [id, hash] 
         }
         return await pool.query(insertTokenQuery);
-    } catch (error) {
-        console.error("Error querying SQL: ", error);
-        throw error;
-    }
-}
-
-export async function findToken(userID) {
-    try {
-        const findTokenQuery = {
-            text: "SELECT * FROM activeUsers user_id = $1",
-            values: [userID]
-        }
-        return await pool.query(findTokenQuery); //returns a promise
     } catch (error) {
         console.error("Error querying SQL: ", error);
         throw error;
@@ -83,3 +70,17 @@ export async function removeToken(userID) {
         throw error;
     }
 }
+
+// export async function findToken(userID) {
+//     try {
+//         const findTokenQuery = {
+//             text: "SELECT * FROM activeUsers user_id = $1",
+//             values: [userID]
+//         }
+//         return await pool.query(findTokenQuery); //returns a promise
+//     } catch (error) {
+//         console.error("Error querying SQL: ", error);
+//         throw error;
+//     }
+// }
+
