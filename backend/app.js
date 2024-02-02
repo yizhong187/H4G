@@ -1,35 +1,44 @@
-import createError from 'http-errors';
-import express, { json, urlencoded } from 'express';
-import cookieParser from 'cookie-parser';
-import logger from 'morgan';
+import express from "express";
+import router from "./routes/router.js";
+import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
+import cors from "cors";
 
-import router from './routes/router';
+// creates an instance of the express application
+const app = express();
+const port = 3000;
 
-var app = express();
-
-// middleware
-app.use(logger('dev'));
-app.use(json());
-app.use(urlencoded({ extended: false }));
+// allows the app to parse HTTP cookies
 app.use(cookieParser());
 
-// routes
-app.use('/', router);
+//middleware to parse json data in the request body
+app.use(bodyParser.json());
 
-// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  next(createError(404));
+//Allow CORS
+app.use(cors({
+    origin: 'http://localhost:5173',
+    credentials: true,
+}));
+
+// any request will be routed to the router
+app.use("/", router);
+
+// if the request url does not match anyone in the router, pass 404 not found error to the error-handling middleware
+app.use((req, res, next) => {
+    const notFound = new Error("Endpoint not found");
+    notFound.status = 404;
+    next(notFound);
 });
 
-// error handler
-app.use(function(err, req, res) {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+// error handling middleware
+app.use((error, req, res) => {
+    console.error(error);
+    res.status( error.status || 500).send(error.message || "An unknown error occurred");
 });
 
-export default app;
+
+//Creates a HTTP server using Node.js http module, and starts listening for any HTTP requests
+app.listen(port, () => {
+    console.log("Server running on port: " + port);
+});
+
