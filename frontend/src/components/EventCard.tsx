@@ -5,7 +5,7 @@ import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { EventModel } from "../interfaces/EventModel";
 
-//this is a new edit to test git 3
+//this is a new edit to test git 32
 
 type EventCardProps = {
   event: EventModel;
