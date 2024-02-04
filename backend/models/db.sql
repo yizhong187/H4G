@@ -18,7 +18,7 @@ CREATE TABLE events (
     id SERIAL PRIMARY KEY,
     eventName TEXT NOT NULL,
     startTime TIMESTAMP NOT NULL,
-    endTIme TIMESTAMP NOT NULL,
+    endTime TIMESTAMP NOT NULL,
     categories TEXT[], -- array of category tags
     available BOOLEAN -- whether it should be displayed to the volunteers
 );
