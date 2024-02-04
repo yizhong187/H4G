@@ -8,7 +8,6 @@ CREATE TABLE users (
     yearOfBirth INT NOT NULL,
     available TEXT[], -- array of days available
     interests TEXT[], -- array of categories interested in
-    volunteerHours INT DEFAULT 0,
     adminRights BOOLEAN, 
     passwordHash TEXT NOT NULL
 );
@@ -18,9 +17,16 @@ CREATE TABLE events (
     id SERIAL PRIMARY KEY,
     eventName TEXT NOT NULL,
     startTime TIMESTAMP NOT NULL,
-    endTIme TIMESTAMP NOT NULL,
+    endTime TIMESTAMP NOT NULL,
     categories TEXT[], -- array of category tags
     available BOOLEAN -- whether it should be displayed to the volunteers
+);
+
+CREATE TABLE volunteerHours (
+    userID INT NOT NULL,
+    eventDate TIMESTAMP NOT NULL,
+    hours DECIMAL(5, 2),
+    FOREIGN KEY (userID) REFERENCES users(id)
 );
 
 -- each event the volunteer registers for is tagged to one entry
