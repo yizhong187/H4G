@@ -3,6 +3,7 @@ import FeedbackPage from "../pages/FeedbackPage";
 import HomePage from "../pages/HomePage"
 import LeaderboardPage from "../pages/LeaderboardPage";
 import LoginPage from "../pages/LoginPage";
+import ProfileEditPage from "../pages/ProfileEditPage";
 import ProfilePage from "../pages/ProfilePage";
 import SettingsPage from "../pages/SettingsPage";
 
@@ -16,6 +17,7 @@ export const routes: Route[] = [
   { path: "/", component: HomePage },
   { path: "/login", component: LoginPage },
   { path: "/leaderboard", component: LeaderboardPage },
+  { path: "/profileedit", component: ProfileEditPage },
   { path: "/profile", component: ProfilePage },
   { path: "/feedback", component: FeedbackPage },
   { path: "/certificates", component: CertificatesPage },
