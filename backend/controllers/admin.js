@@ -1,37 +1,46 @@
 // handles all admin-related requests
-import bcrypt from "bcrypt";
-import {findUser} from "../models/auth.js";
-import {insertAdmin, findUserEvents} from "../models/admin.js";
+import Excel from "exceljs";
+import {findUserEvents} from "../models/admin.js";
 import CustomError from "../error.js";
-
-
-export async function createNewAdmin(req, res) {
-    try {
-        const { username, password } = req.body;
-        const existingUser = await findUser(username);
-    
-        if (existingUser.rows.length !== 0) {
-            throw new CustomError(400, "Username is already taken");
-        }
-
-        const hashedPassword = await bcrypt.hash(password, 10); //10 corresponds to the salt generated
-        await insertAdmin(username, hashedPassword);
-        res.status(201).send("User registered successfully");
-    } catch (error) {
-        if (error instanceof CustomError) {
-            res.status(error.code).json({error: error.message});
-        } else {
-            res.status(500).json({error: error.message});
-        } 
-    }
-}
+import { age, education, ethnicity, fillHome, gender, home, immigration, interests, occupation, skills } from "./excel.js";
 
 // find out how to export as pdf/csv/json 
 export async function generateReport(req, res) {
     try {
         const userEvents = await findUserEvents(username);
 
-        // do something, generate report here
+        // initialise the workbook with worksheets of the different fields
+        const workbook = new Excel.Workbook();
+        const homeWorksheet = workbook.addWorksheet("Volunteer Report");
+        const genderWorksheet = workbook.addWorksheet("Gender");
+        const ageWorksheet = workbook.addWorksheet("Age");
+        const ethnicityWorksheet = workbook.addWorksheet("Ethnicity");
+        const educationWorksheet = workbook.addWorksheet("Education levels");
+        const occupationWorksheet = workbook.addWorksheet("Occupation");
+        const immigrationWorksheet = workbook.addWorksheet("Immmigration");
+        const interestsWorksheet = workbook.addWorksheet("Interests");
+        const skillsWorksheet = workbook.addWorksheet("Skills");
+
+        // initalise the columns of each worksheet
+        homeWorksheet.columns = home;
+        genderWorksheet.columns = gender;
+        ageWorksheet.columns = age;
+        ethnicityWorksheet.columns = ethnicity;
+        educationWorksheet.columns = education;
+        occupationWorksheet.columns = occupation;
+        immigrationWorksheet.columns = immigration;
+        interestsWorksheet.columns = interests;
+        skillsWorksheet.columns = skills;
+
+        // get current year and month to fetch last 12 months
+        const currentDate = new Date();
+        const year = currentDate.getFullYear();
+        const month = currentDate.getMonth();
+
+        homeWorksheet.addRows(await fillHome(month, year));
+
+
+
         res.status(201).send("Events fetched successfully");
     } catch (error) {
         if (error instanceof CustomError) {
