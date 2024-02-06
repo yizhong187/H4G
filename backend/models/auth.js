@@ -3,11 +3,14 @@ import { pool } from "./db.js";
 
 
 // basic user CRUD
-export async function insertUser(firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, hash) {
+export async function insertUser(id, firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+    driving, vehicle, immigrationStatus, available, interests, skills) {
     try {
         const insertUserQuery = {
-            text: "INSERT INTO users(firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, passwordHash) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9)",
-            values: [firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, hash] 
+            text: `INSERT INTO users(id, firstName, lastName, email, gender, yearOfBirth, employmentStatus, education, 
+                driving, vehicle, immigrationStatus, available, interests, skills) VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)`,
+            values: [id, firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+                driving, vehicle, immigrationStatus, available, interests, skills] 
         }
         return await pool.query(insertUserQuery); //returns a promise
     } catch (error) {

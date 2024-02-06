@@ -38,13 +38,13 @@ export async function findRegisteredList(id) {
     }
 }
 
-export async function updateEventDetails(eventName, startTime, endTime, categories, available) {
+export async function updateEventDetails(eventName, startTime, endTime, duration, categories, available) {
     try {
         const updateEventDetailsQuery = {
             text: `UPDATE events
-                SET (eventName, startTime, endTime, categories, available) VALUES($2, $3, $4, $5, $6)
+                SET (eventName, startTime, endTime, duration, categories, available) VALUES($2, $3, $4, $5, $6, $7)
                 WHERE id=$1`,
-            values: [id, eventName, startTime, endTime, categories, available]
+            values: [eventName, startTime, endTime, duration, categories, available]
         }
         return await pool.query(updateEventDetailsQuery);
     } catch (error) {
@@ -53,11 +53,11 @@ export async function updateEventDetails(eventName, startTime, endTime, categori
     }
 }
 
-export async function insertEvent(eventName, startTime, endTime, categories, available) {
+export async function insertEvent(eventName, startTime, endTime, duration, categories, available) {
     try {
         const insertEventQuery = {
-            text: "INSERT INTO events(eventName, startTime, endTime, categories, available) VALUES($1, $2, $3, $4, $5)",
-            values: [eventName, startTime, endTime, categories, available] 
+            text: "INSERT INTO events(eventName, startTime, endTime, duration, categories, available) VALUES($1, $2, $3, $4, $5, $6)",
+            values: [eventName, startTime, endTime, duration, categories, available] 
         }
         return await pool.query(insertEventQuery); //returns a promise
     } catch (error) {

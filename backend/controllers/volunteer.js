@@ -96,7 +96,8 @@ export async function createForm(req, res) {
 export async function updateProfile(req, res) {
     try {
         const userID = req.params.userID;
-        const { firstName, lastName, email, gender, yearOfBirth, available, interests } = req.body;
+        const {firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+            driving, vehicle, immigrationStatus, available, interests, skills} = req.body;
 
         const user = await findVolunteer(userID);
     
@@ -107,7 +108,8 @@ export async function updateProfile(req, res) {
             if (existingUser.rows.length != 0) {
                 throw new CustomError(400, "This email is linked to another account");
             } else {
-                await updateVolunteerProfile(userID, firstName, lastName, email, gender, yearOfBirth, available, interests);
+                await updateVolunteerProfile(firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+                    driving, vehicle, immigrationStatus, available, interests, skills);
                 res.status(201).send("Volunteer profile updated successfully");
             }
         }

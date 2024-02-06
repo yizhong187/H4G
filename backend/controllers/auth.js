@@ -9,7 +9,8 @@ dotenv.config();
 
 export async function registration (req, res) {
     try {
-        const { firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, password } = req.body;
+        const { firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+            driving, vehicle, immigrationStatus, available, interests, skills } = req.body;
         const existingUser = await findUser(email);
     
         if (existingUser.rows.length !== 0) {
@@ -17,7 +18,8 @@ export async function registration (req, res) {
         }
 
         const hashedPassword = await bcrypt.hash(password, 10); //10 corresponds to the salt generated
-        await insertUser(firstName, lastName, email, gender, yearOfBirth, available, interests, adminRights, hashedPassword);
+        await insertUser(firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+            driving, vehicle, immigrationStatus, available, interests, skills, adminRights, hashedPassword);
         res.status(201).send("User registered successfully");
     } catch (error) {
         if (error instanceof CustomError) {

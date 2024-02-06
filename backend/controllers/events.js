@@ -29,9 +29,9 @@ export async function getSingleEvent(req, res) {
 
 export async function createEvent(req, res) {
     try {
-        const { eventName, startTime, endTime, categories, available } = req.body;
+        const { eventName, startTime, endTime, duration, categories, available} = req.body;
 
-        await insertEvent(eventName, startTime, endTime, categories, available);
+        await insertEvent(eventName, startTime, endTime, duration, categories, available);
         res.status(201).send("Event created successfully");
     } catch (error) {
         if (error instanceof CustomError) {
@@ -45,14 +45,14 @@ export async function createEvent(req, res) {
 export async function updateEvent(req, res) {
     try {
         const eventID = req.params.eventID;
-        const { eventName, startTime, endTime, categories, available } = req.body;
+        const { eventName, startTime, endTime, duration, categories, available } = req.body;
 
         const event = await findEvent(eventID);
     
         if (event.rows.length == 0) {
             throw new CustomError(400, "Event not found");
         } else {
-                await updateEventDetails(eventName, startTime, endTime, categories, available);
+                await updateEventDetails(eventName, startTime, endTime, duration, categories, available);
                 res.status(201).send("Event details updated successfully");
         }
     } catch (error) {

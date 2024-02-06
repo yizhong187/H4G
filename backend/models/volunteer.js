@@ -25,13 +25,16 @@ export async function findVolunteer(id) {
     }
 }
 
-export async function updateVolunteerProfile(id, firstName, lastName, email, gender, yearOfBirth, available, interests) {
+export async function updateVolunteerProfile(id, firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+    driving, vehicle, immigrationStatus, available, interests, skills) {
     try {
         const updateVolunteerProfileQuery = {
             text: `UPDATE users
-                SET (firstName, lastName, email, gender, yearOfBirth, available, interests) VALUES($2, $3, $4, $5, $6, $7, $8)
+                SET (id, firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+                    driving, vehicle, immigrationStatus, available, interests, skills) VALUES($2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14)
                 WHERE id=$1`,
-            values: [id, firstName, lastName, email, gender, yearOfBirth, available, interests]
+            values: [id, firstName, lastName, email, gender, yearOfBirth, employmentStatus, education,
+                driving, vehicle, immigrationStatus, available, interests, skills]
         }
         return await pool.query(updateVolunteerProfileQuery);
     } catch (error) {
