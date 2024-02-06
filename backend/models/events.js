@@ -66,7 +66,7 @@ export async function insertEvent(eventName, startTime, endTime, categories, ava
     }
 }
 
-export async function deleteEvent(id) {
+export async function removeEvent(id) {
     try {
         const deleteEventQuery = {
             text: "DELETE FROM events WHERE id = $1",

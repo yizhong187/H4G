@@ -1,5 +1,4 @@
-import { event } from "jquery";
-import { findAllEvents, findEvent, updateEventDetails, insertEvent, deleteEvent } from "../models/events";
+import { findAllEvents, findEvent, updateEventDetails, insertEvent, removeEvent } from "../models/events.js";
 
 export async function getAllEvents(req, res) {
     try {
@@ -74,7 +73,7 @@ export async function deleteEvent(req, res) {
         if (event.rows.length == 0) {
             throw new CustomError(400, "Event not found");
         } else {
-            await deleteEvent(eventID);
+            await removeEvent(eventID);
             res.status(204);
         }
     } catch (error) {
